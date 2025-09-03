@@ -68,7 +68,10 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, String>> verifyEmail({required String code}) async {
+  Future<Either<String, String>> verifyEmail({
+    required String code,
+    required String email,
+  }) async {
     try {
       return NetworkUtil.sendRequest(
         type: RequestType.POST,
@@ -77,10 +80,10 @@ class AuthRepository {
           needAuth: false,
           type: RequestType.POST,
         ),
-        body: {'code': code},
+        body: {'code': code, 'email': email},
       ).then((response) {
         if (response != null) {
-          log('==========> ${response}');
+          log('==========> $response');
           CommonResponse<Map<String, dynamic>> commonResponse =
               CommonResponse.fromJson(response);
           if (commonResponse.getStatus) {
@@ -94,7 +97,6 @@ class AuthRepository {
       });
     } catch (e) {
       return Left(e.toString());
-      // return Left('Please check your internet');
     }
   }
 }

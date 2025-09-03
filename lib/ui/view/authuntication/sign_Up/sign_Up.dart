@@ -1,6 +1,6 @@
 import 'package:e_commerce/ui/shared/app_Colors.dart';
 import 'package:e_commerce/ui/view/authuntication/login.dart';
-import 'package:e_commerce/ui/view/authuntication/sign_Up/sign_Up_Controller.dart';
+import 'package:e_commerce/ui/view/authuntication/sign_up/sign_Up_Controller.dart';
 import 'package:e_commerce/ui/view/authuntication/widget/text_Form_Field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +14,7 @@ class SignUp extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController roleController = TextEditingController();
   final TextEditingController companyController = TextEditingController();
+  final TextEditingController cityController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,7 @@ class SignUp extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 60),
-
                 Column(
                   children: [
                     Text_Form_Custom(
@@ -58,7 +57,7 @@ class SignUp extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     Text_Form_Custom(
-                      label: "company",
+                      label: "Company",
                       controllerr: companyController,
                     ),
                     SizedBox(height: 30),
@@ -66,11 +65,14 @@ class SignUp extends StatelessWidget {
                       label: "Role",
                       controllerr: roleController,
                     ),
+                    SizedBox(height: 30),
+                    Text_Form_Custom(
+                      label: "City",
+                      controllerr: cityController,
+                    ),
                   ],
                 ),
-
                 const SizedBox(height: 80),
-
                 SizedBox(
                   height: 60,
                   child: GetBuilder<SignUpController>(
@@ -97,6 +99,7 @@ class SignUp extends StatelessWidget {
                                   controller.role = roleController.text;
                                   controller.companyName =
                                       companyController.text;
+                                  controller.city = cityController.text;
 
                                   await controller.signing_Up();
                                 },
@@ -123,9 +126,7 @@ class SignUp extends StatelessWidget {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 40),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

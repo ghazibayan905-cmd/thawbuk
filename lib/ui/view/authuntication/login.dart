@@ -1,4 +1,4 @@
-import 'package:e_commerce/ui/view/authuntication/login_Controller.dart';
+import 'package:e_commerce/ui/view/authuntication/login_controller.dart';
 import 'package:e_commerce/ui/view/authuntication/sign_Up/sign_Up.dart';
 import 'package:e_commerce/core/constant/app_image.dart';
 import 'package:e_commerce/ui/shared/app_Colors.dart';
@@ -35,6 +35,18 @@ class Login extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 20),
+                Transform.translate(
+                  offset: Offset(5, 1),
+                  child: Text_Form_Custom(
+                    controllerr: controller.email,
+                    onChanged: (value) {
+                      controller.email.text = value;
+                    },
+                    label: "email",
+                    iconlabel: Icons.email,
+                  ),
+                ),
+                SizedBox(height: 20),
 
                 Transform.translate(
                   offset: Offset(5, 0),
@@ -47,22 +59,11 @@ class Login extends StatelessWidget {
                     iconlabel: Icons.lock,
                   ),
                 ),
-                SizedBox(height: 20),
-                Transform.translate(
-                  offset: Offset(5, 1),
-                  child: Text_Form_Custom(
-                    controllerr: controller.email,
-                    onChanged: (value) {
-                      controller.email.text = value;
-                    },
-                    label: "email",
-                    iconlabel: Icons.email,
-                  ),
-                ),
+
                 SizedBox(height: 30),
                 GestureDetector(
-                  onTap: () async{
-                   await controller.login();
+                  onTap: () async {
+                    await controller.login();
                   },
                   child: Container(
                     alignment: Alignment.center,

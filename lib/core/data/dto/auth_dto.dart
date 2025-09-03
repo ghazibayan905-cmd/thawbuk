@@ -22,6 +22,7 @@ class SignUpDto {
   final String password;
   final String role;
   final String companyName;
+  final String city;
 
   SignUpDto({
     required this.name,
@@ -29,25 +30,32 @@ class SignUpDto {
     required this.password,
     required this.role,
     required this.companyName,
+    required this.city,
   });
 
   factory SignUpDto.fromJson(Map<String, dynamic> json) {
+    final company = json['companyDetails'] ?? {};
+    final address = company['companyAddress'] ?? {};
     return SignUpDto(
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       password: json['password'] ?? '',
       role: json['role'] ?? '',
-      companyName: json['companyDetails']?['companyName'] ?? '',
+      companyName: company['companyName'] ?? '',
+      city: address['city'] ?? '',
     );
   }
 
-  Map<String, dynamic>? toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'email': email,
       'password': password,
       'role': role,
-      'companyDetails': {'companyName': companyName},
+      'companyDetails': {
+        'companyName': companyName,
+        'companyAddress': {'city': city},
+      },
     };
   }
 }

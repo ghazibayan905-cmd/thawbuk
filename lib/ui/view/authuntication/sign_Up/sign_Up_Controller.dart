@@ -1,9 +1,7 @@
 import 'package:e_commerce/core/data/repositories/auth_repositories.dart';
-import 'package:e_commerce/ui/view/authuntication/confirm_Account.dart';
+import 'package:e_commerce/ui/view/authuntication/confirm_account.dart';
 import 'package:e_commerce/core/data/dto/auth_dto.dart';
-import 'package:e_commerce/core/data/network/endpoint/auth_endpoint.dart';
-import 'package:e_commerce/core/enums/request_Type.dart';
-import 'package:e_commerce/core/utils/network_utils.dart';
+import 'package:e_commerce/ui/view/authuntication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +11,7 @@ class SignUpController extends GetxController {
   String password = '';
   String role = '';
   String companyName = '';
+  String city = '';
   bool isLoading = false;
   late SignUpDto signUpDto;
 
@@ -72,6 +71,7 @@ class SignUpController extends GetxController {
       password: password,
       role: role,
       companyName: companyName,
+      city: city,
     );
     await AuthRepository().signUp(signUpDto: signUpDto).then((value) {
       value.fold(
@@ -82,6 +82,7 @@ class SignUpController extends GetxController {
         (r) async {
           isLoading = false;
           Get.snackbar("Success", r);
+          Get.to(() => ConfirmAccount(email: email));
         },
       );
     });
@@ -95,39 +96,51 @@ class SignUpController extends GetxController {
     String otp = pinController.text.trim();
 
     if (otp.isEmpty) {
+      isLoading = false;
+      update();
       Get.snackbar("Error", "Enter OTP code");
       return;
     }
-     await AuthRepository().verifyEmail(code: otp).then((value) {
-      value.fold(
-        (l) {
-          isLoading = false;
-          Get.snackbar("Error", l);
-        },
-        (r) async {
-          isLoading = false;
-          Get.snackbar("Success", r);
-        },
-      );
-    });
 
-    // final response = await NetworkUtil.sendRequest(
-    //   type: RequestType.POST,
-    //   url: "verify-email",
-    //   headers: {'Content-Type': 'application/json; charset=UTF-8'},
-    //   body: {'code': otp},
-    // );
-
-    // if (response != null && response['response']['success'] == true) {
-    //   Get.snackbar(
-    //     "Success",
-    //     response['response']['message'] ?? 'Success, OTP verification',
-    //   );
-    // } else {
-    //   Get.snackbar(
-    //     "Error",
-    //     response?['response']['message'] ?? "OTP verification failed",
-    //   );
-    // }
+    try {
+      // تمرير البريد و OTP معاً
+      await AuthRepository().verifyEmail(email: email, code: otp).then((value) {
+        value.fold(
+          (l) {
+            isLoading = false;
+            update();
+            Get.snackbar("Error", l); // رسالة الخطأ من الـ API
+          },
+          (r) {
+            isLoading = false;
+            update();
+            Get.snackbar("Success", r); // رسالة النجاح
+            Get.to(() => Login());
+          },
+        );
+      });
+    } catch (e) {
+      isLoading = false;
+      update();
+      Get.snackbar("Error", "Something went wrong: $e");
+    }
   }
+  // final response = await NetworkUtil.sendRequest(
+  //   type: RequestType.POST,
+  //   url: "verify-email",
+  //   headers: {'Content-Type': 'application/json; charset=UTF-8'},
+  //   body: {'code': otp},
+  // );
+
+  // if (response != null && response['response']['success'] == true) {
+  //   Get.snackbar(
+  //     "Success",
+  //     response['response']['message'] ?? 'Success, OTP verification',
+  //   );
+  // } else {
+  //   Get.snackbar(
+  //     "Error",
+  //     response?['response']['message'] ?? "OTP verification failed",
+  //   );
+  // }
 }
