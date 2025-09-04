@@ -2,6 +2,7 @@ import 'package:e_commerce/core/enums/request_Type.dart';
 
 class NetworkConfig {
   static String baseApi = 'api/';
+   static String? token;
 
   static String getFullApiRout(String apirout) {
     return baseApi + apirout;
@@ -13,7 +14,7 @@ class NetworkConfig {
     Map<String, String>? extraHeaders,
   }) {
     return {
-      // if (needAuth!) "Authorization": "Bearer ${storage.getTokenInfo}",
+    if (needAuth!) "Authorization": "Bearer $token",
       if (type != RequestType.GET)
         'Content-type': 'application/json; charset=UTF-8',
       ...extraHeaders ?? {},

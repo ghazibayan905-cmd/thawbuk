@@ -6,3 +6,4 @@ class AuthEndPoint {
   static final String signUp = NetworkConfig.getFullApiRout('auth/register');
   static final String verifyEmail = NetworkConfig.getFullApiRout('auth/verify-email');
 }
+

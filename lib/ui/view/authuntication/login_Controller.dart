@@ -1,4 +1,5 @@
 import 'package:e_commerce/core/data/dto/auth_dto.dart';
+import 'package:e_commerce/core/data/model/product_model.dart';
 import 'package:e_commerce/core/data/repositories/auth_repositories.dart';
 import 'package:e_commerce/ui/view/home_page/home_page.dart';
 import 'package:flutter/widgets.dart';
@@ -30,5 +31,6 @@ class LoginController extends GetxController {
       Get.to(HomePage());
     });
     update();
+    
   }
 }
