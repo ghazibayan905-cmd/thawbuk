@@ -15,7 +15,7 @@ class NetworkUtil {
     required String url,
     Map<String, String>? headers,
     Map<String, dynamic>? body,
-    Map<String, dynamic>? params,
+    Map<String, String>? params,
   }) async {
     try {
       //!--- Required for request ----
@@ -24,6 +24,8 @@ class NetworkUtil {
       log('==========> $uri');
 
       log('==========> $body');
+      log('==========> $params');
+
       //?--- To Save api response ----
       late http.Response
       response; // حتى يتم استقبال البيانات من http ويتم تاخير تعريفه حتى يتم طلبه

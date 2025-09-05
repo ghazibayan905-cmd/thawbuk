@@ -1,3 +1,5 @@
+import 'package:e_commerce/ui/shared/carousel_slider.dart';
+import 'package:e_commerce/ui/view/details_page/details_page.dart';
 import 'package:e_commerce/ui/view/home_page/home_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,7 +45,6 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ✅ شريط الفئات
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -72,7 +73,6 @@ class HomePage extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // ✅ المنتجات
                   Expanded(
                     child: controller.isLoading
                         ? const Center(child: CircularProgressIndicator())
@@ -83,57 +83,52 @@ class HomePage extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final Product product =
                                   controller.products[index];
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                elevation: 3,
-                                margin: const EdgeInsets.symmetric(vertical: 8),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              product.name ?? "No Title",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => DetailsPage(productId: product.sId!),
+                                  );
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 3,
+                                  margin: const EdgeInsets.symmetric(
+                                    vertical: 8,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product.name ?? "No Title",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              "Category: ${product.categoryId ?? "N/A"}",
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "Category: ${product.categoryId ?? "N/A"}",
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child:
-                                            product.images != null &&
-                                                product.images!.isNotEmpty
-                                            ? Image.network(
-                                                product.images!.first,
-                                                width: 60,
-                                                height: 60,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.asset(
-                                                Appimages.logo,
-                                                width: 60,
-                                                height: 60,
-                                                fit: BoxFit.cover,
-                                              ),
-                                      ),
-                                    ],
+                                        const SizedBox(width: 12),
+                                        Container(
+                                          width: 200,
+                                          child: carouselslider(product),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
