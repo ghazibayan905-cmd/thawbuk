@@ -12,7 +12,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomePageController>(
-      init: HomePageController()..fetchAllProducts(),
+      init: HomePageController()
+        ..fetchAllProducts()
+        ..fetchAllCategory(),
       builder: (controller) {
         return SafeArea(
           child: Scaffold(
@@ -51,10 +53,11 @@ class HomePage extends StatelessWidget {
                       children: List.generate(controller.categories.length, (
                         index,
                       ) {
+                        final category = controller.categories[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: ChoiceChip(
-                            label: Text(controller.categories[index]),
+                            label: Text(category.name!),
                             selected: controller.selectedIndex == index,
                             onSelected: (value) {
                               controller.changeCategory(index);
