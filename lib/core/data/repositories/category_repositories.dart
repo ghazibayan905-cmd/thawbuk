@@ -49,6 +49,42 @@ class CategoryRepositories {
     }
   }
 
+  Future<Either<String, Categories>> getCategoryDetails(
+    String categoryId,
+  ) async {
+    try {
+      return NetworkUtil.sendRequest(
+        type: RequestType.GET,
+        url: "${EndPointCategory.categories}/$categoryId",
+        headers: NetworkConfig.getHeaders(
+          needAuth: false,
+          type: RequestType.GET,
+        ),
+      ).then((response) {
+        if (response != null) {
+          log("==== API RESPONSE ====> $response");
 
+          CommonResponse<Map<String, dynamic>> commonResponse =
+              CommonResponse.fromJson(response);
 
+          if (commonResponse.getStatus) {
+            final data = commonResponse.data?["body"]?["data"];
+            if (data == null) {
+              return Left("Category data not found in response");
+            }
+
+            final category = Categories.fromJson(data as Map<String, dynamic>);
+
+            return Right(category);
+          } else {
+            return Left(commonResponse.message ?? 'حدث خطأ ما');
+          }
+        } else {
+          return Left('Please check your internet');
+        }
+      });
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

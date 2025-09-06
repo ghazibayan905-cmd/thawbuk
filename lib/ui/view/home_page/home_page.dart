@@ -61,6 +61,9 @@ class HomePage extends StatelessWidget {
                             selected: controller.selectedIndex == index,
                             onSelected: (value) {
                               controller.changeCategory(index);
+                              controller.showCategoryDetails(
+                                controller.categories[index].sId!,
+                              );
                             },
                             selectedColor: Colors.blue,
                             labelStyle: TextStyle(
