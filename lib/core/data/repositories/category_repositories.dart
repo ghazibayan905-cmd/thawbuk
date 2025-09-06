@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/core/data/model/category_model.dart';
 import 'package:e_commerce/core/data/model/common_response.dart';
+import 'package:e_commerce/core/data/model/product_model.dart';
 import 'package:e_commerce/core/data/network/endpoint/end_point_category.dart';
 import 'package:e_commerce/core/data/network/network_config.dart';
 import 'package:e_commerce/core/enums/request_Type.dart';
 import 'package:e_commerce/core/utils/network_utils.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/route_manager.dart';
 
 class CategoryRepositories {
   Future<Either<String, List<Categories>>> getAllCategory() async {
@@ -46,4 +48,7 @@ class CategoryRepositories {
       return Left(e.toString());
     }
   }
+
+
+
 }

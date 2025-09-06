@@ -79,13 +79,13 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child: controller.isLoading
                         ? const Center(child: CircularProgressIndicator())
-                        : controller.products.isEmpty
+                        : controller.filteredProducts.isEmpty
                         ? const Center(child: Text("No products found"))
                         : ListView.builder(
-                            itemCount: controller.products.length,
+                            itemCount: controller.filteredProducts.length,
                             itemBuilder: (context, index) {
                               final Product product =
-                                  controller.products[index];
+                                  controller.filteredProducts[index];
                               return InkWell(
                                 onTap: () {
                                   Get.to(

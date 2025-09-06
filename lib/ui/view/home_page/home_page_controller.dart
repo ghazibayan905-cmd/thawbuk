@@ -9,6 +9,8 @@ class HomePageController extends GetxController {
   bool isLoading = false;
   int selectedIndex = 0;
   late Product product;
+  List<Product> filteredProducts = [];
+
   //TextEditingController name = TextEditingController();
   //List<String> images = [];
 
@@ -56,9 +58,34 @@ class HomePageController extends GetxController {
     update();
   }
 
+  Future<void> fetchProductsByCategory(String categoryId) async {
+    isLoading = true;
+    update();
+    print("===> fetchProductsByCategory called");
+
+    await ProductRepoitories().getProductByCategory(categoryId).then((value) {
+      value.fold(
+        (l) {
+          isLoading = false;
+          Get.snackbar("Error", l);
+        },
+        (r) {
+          isLoading = false;
+          filteredProducts = r; // ✅ خزن المنتجات
+          Get.snackbar("Success", "تم جلب ${filteredProducts.length} متج");
+        },
+      );
+    });
+
+    update();
+  }
+
   void changeCategory(int index) {
     selectedIndex = index;
+    final selectedCategoryId = categories[index].sId;
+    filteredProducts = products
+        .where((p) => p.categoryId == selectedCategoryId)
+        .toList();
     update();
-    // بإمكانك تضيف فلترة حسب الفئة هون لو بدك
   }
 }
