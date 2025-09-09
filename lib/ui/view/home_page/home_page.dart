@@ -1,6 +1,7 @@
 import 'package:e_commerce/ui/shared/carousel_slider.dart';
 import 'package:e_commerce/ui/view/details_page/details_page.dart';
 import 'package:e_commerce/ui/view/home_page/home_page_controller.dart';
+import 'package:e_commerce/ui/view/add_product_page/create_product.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce/core/constant/app_image.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final newProduct = Get.arguments;
     return GetBuilder<HomePageController>(
       init: HomePageController()
         ..fetchAllProducts()
@@ -82,13 +84,13 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child: controller.isLoading
                         ? const Center(child: CircularProgressIndicator())
-                        : controller.filteredProducts.isEmpty
+                        : controller.products.isEmpty
                         ? const Center(child: Text("No products found"))
                         : ListView.builder(
-                            itemCount: controller.filteredProducts.length,
+                            itemCount: controller.products.length,
                             itemBuilder: (context, index) {
                               final Product product =
-                                  controller.filteredProducts[index];
+                                  controller.products[index];
                               return InkWell(
                                 onTap: () {
                                   Get.to(
@@ -140,6 +142,12 @@ class HomePage extends StatelessWidget {
                               );
                             },
                           ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.to(CreateProductPage());
+                    },
+                    child: Text("create product"),
                   ),
                 ],
               ),

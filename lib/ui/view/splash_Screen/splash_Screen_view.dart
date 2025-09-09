@@ -1,5 +1,7 @@
+import 'package:e_commerce/core/utils/genearl_utils.dart';
 import 'package:e_commerce/ui/view/authuntication/login.dart';
 import 'package:e_commerce/core/constant/app_image.dart';
+import 'package:e_commerce/ui/view/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,6 +52,10 @@ class _SplashScreenViewState extends State<SplashScreenView>
 
 void goToNextView() {
   Future.delayed(Duration(seconds: 3), () {
-    Get.to(() => Login(), transition: Transition.fade);
+    if (storage.isLoggedIn) {
+      Get.off(() => HomePage());
+    } else {
+      Get.off(() => Login(), transition: Transition.fade);
+    }
   });
 }

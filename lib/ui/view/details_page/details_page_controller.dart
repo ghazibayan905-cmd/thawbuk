@@ -8,31 +8,34 @@ class DetailsPageController extends GetxController {
   DetailsPageController({required this.productId});
   bool isLoading = true;
   Product? product;
-   @override
-  void onInit() {
+  @override
+  void onInit() async {
     super.onInit();
-    fetchProductDetails(); 
+    await fetchProductDetails();
   }
+
   Future<void> fetchProductDetails() async {
     try {
       isLoading = true;
       update(); // أول شي نخبر الواجهة إنو في تحميل
 
-      final value = await ProductRepoitories().getSingleProduct(productId);
-
-      value.fold(
-        (l) {
-          isLoading = false;
-          update();
-          Get.snackbar("Error", l);
-        },
-        (r) {
-          isLoading = false;
-          product = r;
-          update(); 
-          Get.snackbar("Success", "تم جلب المنتج ${product?.name}");
-        },
-      );
+      await ProductRepositories().getSingleProduct(productId).then((prod) {
+        prod.fold(
+          (l) {
+            isLoading = false;
+            update();
+            Get.snackbar("Error", l);
+          },
+          (r) {
+            isLoading = false;
+            product = r;
+            print('2222222');
+            print(product);
+            update();
+            Get.snackbar("Success", "تم جلب المنتج ${product?.name}");
+          },
+        );
+      });
     } catch (e) {
       isLoading = false;
       update();

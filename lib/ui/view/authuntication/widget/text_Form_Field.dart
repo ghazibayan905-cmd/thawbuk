@@ -5,12 +5,17 @@ class Text_Form_Custom extends StatelessWidget {
   final IconData? iconlabel;
   final TextEditingController? controllerr;
   final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+  final String? labelText;
+
   const Text_Form_Custom({
     super.key,
     this.label,
     this.iconlabel,
     this.controllerr,
     this.onChanged,
+    this.validator,
+    this.labelText,
   });
 
   @override
@@ -18,11 +23,14 @@ class Text_Form_Custom extends StatelessWidget {
     return SizedBox(
       width: 300,
       child: TextFormField(
+        validator: validator,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         onChanged: onChanged,
         controller: controllerr,
+
         decoration: InputDecoration(
-          labelText: label,
+          labelText: labelText ?? label,
+
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
             borderSide: const BorderSide(color: Colors.grey, width: 1),

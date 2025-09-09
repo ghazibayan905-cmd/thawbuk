@@ -5,6 +5,7 @@ import 'package:e_commerce/core/data/model/common_response.dart';
 import 'package:e_commerce/core/data/network/endpoint/auth_endpoint.dart';
 import 'package:e_commerce/core/data/network/network_config.dart';
 import 'package:e_commerce/core/enums/request_Type.dart';
+import 'package:e_commerce/core/utils/genearl_utils.dart';
 import 'package:e_commerce/core/utils/network_utils.dart';
 
 class AuthRepository {
@@ -54,6 +55,7 @@ class AuthRepository {
           CommonResponse<Map<String, dynamic>> commonResponse =
               CommonResponse.fromJson(response);
           if (commonResponse.getStatus) {
+            storage.setToken(commonResponse.data!['body']['token']);
             return Right(commonResponse.data!['message']);
           } else {
             return Left(commonResponse.message ?? '');

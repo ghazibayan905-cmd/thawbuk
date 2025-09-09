@@ -1,9 +1,9 @@
- class Product {
+class Product {
   final String? sId;
   final String? name;
   final int? stock;
   final String? description;
-  final int? price;
+  final double? price; // ⬅️ خليتها double
   final String? categoryId;
 
   final List<String>? images;
@@ -12,7 +12,7 @@
   final AgeRange? ageRange;
   final String? nameAr;
   final String? descriptionAr;
-  final int? rating;
+  final double? rating; // ⬅️ خليتها double
   final int? reviewsCount;
   final int? favoritesCount;
   final int? viewsCount;
@@ -37,23 +37,30 @@
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    double? parseToDouble(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value.toDouble();
+      if (value is double) return value;
+      return double.tryParse(value.toString());
+    }
+
     return Product(
       sId: json['_id'],
       name: json['name'],
-      stock: json['stock'],
+      stock: json['stock'] is int ? json['stock'] : int.tryParse(json['stock']?.toString() ?? '0'),
       description: json['description'],
-      price: json['price'],
+      price: parseToDouble(json['price']),
       categoryId: json['categoryId'],
-      images: (json['images'] as List?)?.cast<String>(),
-      sizes: (json['sizes'] as List?)?.cast<String>(),
-      colors: (json['colors'] as List?)?.cast<String>(),
+      images: (json['images'] as List?)?.map((e) => e.toString()).toList(),
+      sizes: (json['sizes'] as List?)?.map((e) => e.toString()).toList(),
+      colors: (json['colors'] as List?)?.map((e) => e.toString()).toList(),
       ageRange: json['ageRange'] != null ? AgeRange.fromJson(json['ageRange']) : null,
       nameAr: json['nameAr'],
       descriptionAr: json['descriptionAr'],
-      rating: json['rating'],
-      reviewsCount: json['reviewsCount'],
-      favoritesCount: json['favoritesCount'],
-      viewsCount: json['viewsCount'],
+      rating: parseToDouble(json['rating']),
+      reviewsCount: json['reviewsCount'] is int ? json['reviewsCount'] : int.tryParse(json['reviewsCount']?.toString() ?? '0'),
+      favoritesCount: json['favoritesCount'] is int ? json['favoritesCount'] : int.tryParse(json['favoritesCount']?.toString() ?? '0'),
+      viewsCount: json['viewsCount'] is int ? json['viewsCount'] : int.tryParse(json['viewsCount']?.toString() ?? '0'),
     );
   }
 
@@ -77,22 +84,14 @@
       'viewsCount': viewsCount,
     };
   }
-
-
 }
 
 class AgeRange {
+  AgeRange();
 
+  AgeRange.fromJson(Map<String, dynamic> json);
 
-	AgeRange(
-
-  );
-
-	AgeRange.fromJson(Map<String, dynamic> json) {
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		return data;
-	}
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }

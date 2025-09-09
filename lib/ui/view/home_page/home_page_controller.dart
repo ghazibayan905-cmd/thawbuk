@@ -20,7 +20,7 @@ class HomePageController extends GetxController {
     isLoading = true;
     update();
 
-    await ProductRepoitories().getAllProducts().then((value) {
+    await ProductRepositories().getAllProducts().then((value) {
       value.fold(
         (l) {
           isLoading = false;
@@ -28,7 +28,8 @@ class HomePageController extends GetxController {
         },
         (r) {
           isLoading = false;
-          products = r; 
+          products = r;
+
           Get.snackbar("Success", "تم جلب ${products.length} منتج");
         },
       );
@@ -61,10 +62,11 @@ class HomePageController extends GetxController {
 
   Future<void> fetchProductsByCategory(String categoryId) async {
     isLoading = true;
+    products.clear();
     update();
     print("===> fetchProductsByCategory called");
 
-    await ProductRepoitories().getProductByCategory(categoryId).then((value) {
+    await ProductRepositories().getProductByCategory(categoryId).then((value) {
       value.fold(
         (l) {
           isLoading = false;
@@ -72,7 +74,7 @@ class HomePageController extends GetxController {
         },
         (r) {
           isLoading = false;
-          filteredProducts = r; 
+          products = r;
           Get.snackbar("Success", "تم جلب ${filteredProducts.length} متج");
         },
       );

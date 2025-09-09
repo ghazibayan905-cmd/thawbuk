@@ -23,12 +23,13 @@ class LoginController extends GetxController {
           isLoading = false;
           Get.snackbar("Error", l);
         },
-        (r) async {
+        (r)  {
           isLoading = false;
+          Get.to(HomePage());
           Get.snackbar("Success", r);
         },
       );
-      Get.to(HomePage());
+      
     });
     update();
     
